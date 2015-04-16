@@ -2,29 +2,31 @@ var Anagram = function(input){
   self = this;
   self.input = input;
   self.output = [];
-  self.matches = function(array) {
-    var match = false;
-    array.forEach(function(element){
-		if(element.length === self.input.length) {
-			if(self.letterCount(element) == self.letterCount(self.input)){
+  self.matches = function(input) {
+    for(var i=0; i < input.length; i++){
+    	var match = false;
+		if(input[i].toLowerCase() !== self.input.toLowerCase()) {
+			var obj1 = self.letterCount(self.input);
+			var obj2 = self.letterCount(input[i]);
+			
+			if( compareObjects(obj1,obj2) ) {
 				match = true;
-				console.log('works');
-			} else {
-				console.log('didnt work');
+				//console.log("we got a match");
 			}
 		}
 
 		if(match) {
-			self.output.push(element);
+			self.output.push(input[i]);
 		}
-    });
+    }
     
     return self.output;
   };
 
   self.letterCount = function(word) {
 	var values = [],
-		finalVal = {};
+		numLetters = {},
+		word = word.toLowerCase();
 
 	for(var i = 0; i < word.length; i++){
 		values[i] = [word[i],0];
@@ -36,13 +38,34 @@ var Anagram = function(input){
 	}
 
 	for(var i = 0; i < values.length; i++) {
-		finalVal[values[i][0]] = values[i][1];
+		numLetters[values[i][0]] = values[i][1];
 	}
 
-	return finalVal;
+	return numLetters;
   }
 
   return this;
 };
 
+var compareObjects = function(o1, o2){
+    for(var prop in o1){
+        if(o1.hasOwnProperty(prop)){
+            if(o1[prop] !== o2[prop]){
+                return false;
+            }
+        }
+    }
+    for(var prop in o2){
+        if(o2.hasOwnProperty(prop)){
+            if(o1[prop] !== o2[prop]){
+                return false;
+            }
+        }
+    }
+    return true;
+};
+
 module.exports = Anagram;
+
+var A = new Anagram("title");
+
