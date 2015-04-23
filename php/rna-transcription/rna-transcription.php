@@ -7,10 +7,6 @@ function toRna($input) {
 		'T' => 'A',
 		'A' => 'U'
 		);
-	$output = "";
 
-	foreach(str_split($input) as $dna){
-		$output .= $rna_array[$dna];
-	}
-	return $output;
+	return strtr($input, $rna_array);
 }
